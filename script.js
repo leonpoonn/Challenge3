@@ -5,6 +5,8 @@ var upper = document.getElementById("RandomUpper");
 var number = document.getElementById("RandomNumber");
 var symbol = document.getElementById("RandomSymbol");
 var characters = document.getElementById("RandomCharacters");
+var result = document.getElementById("Result");
+
 
 // Write password to the #password input
 function writePassword() {
@@ -18,13 +20,33 @@ function writePassword() {
   passwordText.value = password;
 }
 
+
 // later
-function generatePassword(lower2, upper2, number2, symbol2, characters2){
-  var text ="";
-  for (let i = 0; i < characters2; i++) {
-    text += getRandomLower() + "<br>";
+function generatePassword(lower, upper, number, symbol, characters){
+  
+  let generatedPassword = '';
+  const typesCount = lower + upper + number + symbol;
+  console.log('typesCount:', typesCount);
+  const typesArr = [{lower}, {upper}, {number}, {symbol}].filter
+  (
+    item => Object.values(item)[0]
+    );
+  console.log('typesArr:',typesArr);
+  
+  if(typesCount == 0){
+    return '';
   }
-return text;
+
+  for (let i = 0; i < characters; i+= typesCount) {
+    typesArr.forEach(type=> {
+      const funcName = Object.keys(type)[0];
+      console.log('funcName: ', funcName);
+      generatedPassword += randomFunc[funcName]();
+    });
+   }
+ const finalPassword = generatedPassword.slice(0, characters);
+
+ return finalPassword;
 }
 
 
@@ -34,12 +56,14 @@ generateBtn.addEventListener("click", writePassword);
 // Get element by id 
 document.getElementById("RandomLower");
 
+//
 const randomFunc = {
   lower: getRandomLower,
   upper: getRandomUpper,
   number: getRandomNumber,
   symbol: getRandomSymbol
 }
+
 
 // Lower Case
 
